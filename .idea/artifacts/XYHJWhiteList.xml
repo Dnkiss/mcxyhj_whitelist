@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="XYHJWhiteList">
+    <output-path>$PROJECT_DIR$/../../</output-path>
+    <root id="archive" name="XYHJWhiteList.jar">
+      <element id="module-output" name="mcxyhj_whitelist" />
+    </root>
+  </artifact>
+</component>

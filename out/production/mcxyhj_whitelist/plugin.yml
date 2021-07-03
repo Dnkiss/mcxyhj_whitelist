@@ -1,0 +1,7 @@
+  name: XYHJWhiteList
+  main: xyhj.dnkiss.XYHJWhiteList
+  version: 1
+  author: dnkiss
+  commands:
+    wl:
+      description: get whitelist
