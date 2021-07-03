@@ -15,13 +15,13 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecutor {
 
-    private String filename = "D:/code.txt";
+    private final String codeFilename = "D:/code.txt";
+    private final String onlineUserFilename = "D:/onlineUser.txt";
     private List<String> code = new ArrayList<>();
-    File codeFile = new File(filename);
+    private List<String> onlineUser = new ArrayList<>();
 
     @Override
     public void onEnable(){
@@ -29,13 +29,14 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
         saveDefaultConfig();
         Bukkit.getPluginManager().registerEvents(this,this);
         Bukkit.getPluginCommand("wl");
-        code = getCode();
+        code = getList(codeFilename);
     }
     @Override
     public void onDisable(){
         System.out.println("星夜幻境白名单系统正常关闭");
+        saveConfig();
         saveDefaultConfig();
-        codeWriter(filename);
+        codeWriter(codeFilename);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
                 p.setGameMode(GameMode.SURVIVAL);
                 p.sendMessage("验证成功，欢迎加入星夜幻境！");
                 code.remove(args[0]);
-                codeWriter(filename);
+                codeWriter(codeFilename);
             }
             else if(!code.contains(args[0])){
                 p.sendMessage("请输入正确的验证码");
@@ -76,31 +77,46 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         String name = e.getPlayer().getName();
+        onlineUser = getList(onlineUserFilename);
         if(getConfig().contains(name)){
             if(getConfig().getInt(name)==0){
-                e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
-                e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
-                e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
-                e.getPlayer().setGameMode(GameMode.SPECTATOR);
+                if(onlineUser.contains(name)){
+                    e.getPlayer().setGameMode(GameMode.SURVIVAL);
+                    getConfig().set(name,1);
+                    saveConfig();
+                }
+                else{
+                    e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
+                    e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
+                    e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
+                    e.getPlayer().setGameMode(GameMode.SPECTATOR);
+                }
             }
             else{
                 e.getPlayer().setGameMode(GameMode.SURVIVAL);
             }
         }
         else{
-            e.getPlayer().setGameMode(GameMode.SPECTATOR);
-            e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
-            e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
-            e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
+            if(onlineUser.contains(name)){
+                e.getPlayer().setGameMode(GameMode.SURVIVAL);
+                getConfig().set(name,1);
+                saveConfig();
+            }
+            else{
+                e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
+                e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
+                e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
+                e.getPlayer().setGameMode(GameMode.SPECTATOR);
+            }
         }
     }
 
-    public List<String> getCode(){
+    public List<String> getList(String filename){
         List<String> temp = new ArrayList<>();
         String str;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream
-                    (new File("D:/code.txt")),
+                    (new File(filename)),
                     StandardCharsets.UTF_8));
             while((str = br.readLine()) != null){
                 temp.add(str);
