@@ -59,6 +59,9 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
             }
             else if(!code.contains(args[0])){
                 p.sendMessage("请输入正确的验证码");
+                p.sendMessage("请输入/wl 验证码，进行验证");
+                p.sendMessage("正版玩家请登录服务器：自动获取验证码");
+                p.sendMessage("非正版玩家请加入qq群：750566298申请验证码");
             }
             else{
                 p.sendMessage("输入 /wl 验证码 进行验证");
@@ -75,6 +78,9 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
         String name = e.getPlayer().getName();
         if(getConfig().contains(name)){
             if(getConfig().getInt(name)==0){
+                e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
+                e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
+                e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
                 e.getPlayer().setGameMode(GameMode.SPECTATOR);
             }
             else{
@@ -83,6 +89,9 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
         }
         else{
             e.getPlayer().setGameMode(GameMode.SPECTATOR);
+            e.getPlayer().sendMessage("请输入/wl 验证码，进行验证");
+            e.getPlayer().sendMessage("正版玩家请登录服务器：自动获取验证码");
+            e.getPlayer().sendMessage("非正版玩家请加入qq群：750566298申请验证码");
         }
     }
 
