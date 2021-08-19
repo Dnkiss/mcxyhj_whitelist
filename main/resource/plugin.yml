@@ -1,6 +1,7 @@
   name: XYHJWhiteList
   main: xyhj.dnkiss.XYHJWhiteList
   version: 1
+  api-version: 1.17
   author: dnkiss
   commands:
     wl:
