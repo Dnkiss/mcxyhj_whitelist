@@ -123,7 +123,9 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
                 }
             }
             else if(getConfig().getInt(name) == 1 || getConfig().getInt(name) == 2){
-                e.getPlayer().setGameMode(GameMode.SURVIVAL);
+                if(!e.getPlayer().hasPermission("mcxyhj.admin")){
+                    e.getPlayer().setGameMode(GameMode.SURVIVAL);
+                }
                 bossBar.removePlayer(e.getPlayer());
             }
         }
@@ -180,9 +182,11 @@ public class XYHJWhiteList extends JavaPlugin implements Listener, CommandExecut
             e.getPlayer().setAllowFlight(true);
         }else{
             if(getConfig().getInt(e.getPlayer().getName())==1){
-                e.getPlayer().setGameMode(GameMode.SURVIVAL);
-                e.getPlayer().setFlying(false);
-                e.getPlayer().setAllowFlight(false);
+                if(!e.getPlayer().hasPermission("mcxyhj.admin")){
+                    e.getPlayer().setGameMode(GameMode.SURVIVAL);
+                    e.getPlayer().setFlying(false);
+                    e.getPlayer().setAllowFlight(false);
+                }
             }
         }
     }
